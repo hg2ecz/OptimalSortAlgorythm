@@ -2,11 +2,14 @@ CC=gcc
 
 CFLAGS =-Wall -O2
 
-# ARM and x86
-CFLAGS+=-mcpu=cortex-a5 -mfpu=neon-fp16
+# ARM and x86 specific
+#CFLAGS+=-mcpu=cortex-a5 -mfpu=neon-fp16
 #CFLAGS+=-march=native
 
 CFLAGS+=-DLOG2NUM=20
+
+# call string.h memcpy in qsort-like function -- much slower(!)
+#CFLAGS+=-DORIG_MEMCPY
 
 LDFLAGS=-lm -s
 OBJS=optimal_sort.o benchmark.o

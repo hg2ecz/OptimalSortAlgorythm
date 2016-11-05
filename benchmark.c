@@ -20,31 +20,38 @@ static int qsort_compare(const void *ain, const void *bin) {
 }
 
 int main() {
-    struct timespec t1, t2, t3;
+    struct timespec t1, t2, t3, t4;
 
     int *m1=malloc(NUM*sizeof(int));
     int *m2=malloc(NUM*sizeof(int));
+    int *m3=malloc(NUM*sizeof(int));
 
-    for (int i=0; i<NUM; i++) m1[i] = m2[i] = random();
+    for (int i=0; i<NUM; i++) m1[i] = m2[i] = m3[i]= random();
 
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);
     qsort(m1, NUM, sizeof(int), qsort_compare);
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t2);
     optimal_sort(m2, LOG2NUM); // optimal sort
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t3);
+    optimal_qsortlike(m3, LOG2NUM, sizeof(int), qsort_compare); // optimal qsort-like
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t4);
 
-    puts("First 20: (glibc qsort, optimal sort):");
-    for (int i=0; i<20; i++) {
-	printf(" %10d %10d\n", m1[i], m2[i]);
+    puts("First 20 (glibc qsort, optimal sort, optimal qsort-like):");
+    for (int i=0; i<20 && i<NUM; i++) {
+	printf(" %10d %10d %10d\n", m1[i], m2[i], m3[i]);
     }
-    
-    puts("Last 10: (glibc qsort, optimal sort):");
+
+    puts("Last 10 (glibc qsort, optimal sort, optimal qsort-like):");
     for (int i=NUM-10; i<NUM; i++) {
-	printf(" %10d %10d\n", m1[i], m2[i]);
+	printf(" %10d %10d %10d\n", m1[i], m2[i], m3[i]);
     }
 
     puts("\nTimes:");
-    printf("  glibc qsort:  %.2f ms\n", difftime_ms(t1, t2));
-    printf("  optimal sort: %.2f ms\n", difftime_ms(t2, t3));
+    printf("  glibc qsort:   %.2f ms\n", difftime_ms(t1, t2));
+    printf("  optimal sort:  %.2f ms\n", difftime_ms(t2, t3));
+    printf("  qsort-like:    %.2f ms\n", difftime_ms(t3, t4));
+    free(m1);
+    free(m2);
+    free(m3);
     return 0;
 }
