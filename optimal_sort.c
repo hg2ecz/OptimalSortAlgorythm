@@ -77,12 +77,10 @@ static inline void cusmemcpy(void *dst, const void *src, int len) {
 #endif
 
 
-
 void optimal_qsortlike(void *base, int log2nmemb, size_t size, int (*compar)(const void *, const void *)) {
     int len = 1<<log2nmemb;
     void *src, *dst;
     void *tmp = malloc(len*size);
-    void *tmp_1word = malloc(size);
     if (!tmp) {
 	perror("Malloc error in optimal_qsort\n");
 	exit(0);
@@ -91,9 +89,9 @@ void optimal_qsortlike(void *base, int log2nmemb, size_t size, int (*compar)(con
     if (log2nmemb & 1) {
 	for (int i=0; i<len; i+=2) {
 	    if (compar(base + i*size, base + (i+1)*size) > 0) {
-		cusmemcpy(tmp_1word, base + i*size, size);
+		cusmemcpy(tmp, base + i*size, size);
 		cusmemcpy(base + i*size, base + (i+1)*size, size);
-		cusmemcpy(base + (i+1)*size, tmp_1word, size);
+		cusmemcpy(base + (i+1)*size, tmp, size);
 	    }
 	}
 	src = base;
@@ -129,7 +127,5 @@ void optimal_qsortlike(void *base, int log2nmemb, size_t size, int (*compar)(con
 	dst = src;
 	src = tmpptr;
     }
-
-    free(tmp_1word);
     free(tmp);
 }
