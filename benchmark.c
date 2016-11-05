@@ -46,7 +46,7 @@ int main() {
 	printf(" %10d %10d %10d\n", m1[i], m2[i], m3[i]);
     }
 
-    puts("\nTimes:");
+    printf("\nTimes (%d elements):\n", NUM);
     printf("  glibc qsort:   %.2f ms\n", difftime_ms(t1, t2));
     printf("  optimal sort:  %.2f ms\n", difftime_ms(t2, t3));
     printf("  qsort-like:    %.2f ms\n", difftime_ms(t3, t4));
