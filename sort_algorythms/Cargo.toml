@@ -1,0 +1,12 @@
+[package]
+name = "sort_algorythms"
+version = "0.1.0"
+authors = ["Zsolt Krüpl <hg2ecz@ham.hu>"]
+
+[dependencies]
+rand = "0.5.*"
+
+[lib]
+name = "optimal_sort"
+path = "src/optimal_sort.rs"
+crate-type = ["rlib"]
