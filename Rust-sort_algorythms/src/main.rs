@@ -1,6 +1,8 @@
 extern crate rand;
-mod optimal_sort;
+
 mod optimal_sort_recursive;
+mod optimal_sort;
+mod optimal_sort_speedup;
 
 use std::time::Instant;
 
@@ -22,4 +24,10 @@ fn main() {
     let elapsed_time = start_time.elapsed();
     let milliseconds = (elapsed_time.as_secs() as f64 * 1000.0) + (elapsed_time.subsec_nanos() as f64 / 1_000_000.0);
     println!("\nOptimal sort elapsed time: {} ms", milliseconds);
+
+    let start_time = Instant::now();
+    let _ord = optimal_sort_speedup::optimal_sort(&m);
+    let elapsed_time = start_time.elapsed();
+    let milliseconds = (elapsed_time.as_secs() as f64 * 1000.0) + (elapsed_time.subsec_nanos() as f64 / 1_000_000.0);
+    println!("\nOptimal sort speedup elapsed time: {} ms", milliseconds);
 }
