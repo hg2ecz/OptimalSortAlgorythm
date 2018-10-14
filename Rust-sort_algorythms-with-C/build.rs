@@ -1,7 +1,7 @@
-extern crate gcc;
+extern crate cc;
 
 fn main() {
-    gcc::Build::new()
+    cc::Build::new()
 	.file("src/optimal_sort.c")
 	.flag("-Ofast")
 	.flag("-march=native")
